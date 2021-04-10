@@ -1,0 +1,53 @@
+sudo su -
+
+apt-get install apache2
+
+service apache2 start
+
+apt-get install vsftpd
+
+systemctl restart vsftpd
+
+vi /etc/vsftpd.conf
+
+----------------------------------------------------------------------
+# Allow anonymous FTP? (Disabled by default).
+
+anonymous_enable=NO
+
+# Uncomment this to allow local users to log in.
+
+local_enable=YES
+
+#If you want local user to be able to write to a directory, then change the write_enable setting to YES:
+
+write_enable=YES
+
+#To prevent the FTP users to access any files outside of their home directories uncomment the chroot setting.
+
+chroot_local_user=YES
+
+#Use this option if you must to grant writable access to your user to its home directory.
+
+# ADD this line in end of configuration file
+
+allow_writeable_chroot=YES
+-----------------------------------------------------------------------------
+
+cd /var/www
+
+adduser mike
+
+passwd - mike
+
+Home directory set
+usermod  -d /var/www/html mike
+
+folder permission
+chown www-data:www-data /var/www/html
+
+systemctl enable vsftpd
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
