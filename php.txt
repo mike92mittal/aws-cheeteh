@@ -1,0 +1,19 @@
+Restart Apache for php service
+
+# apache2ctl restart
+
+Restart Nginx for php service
+
+# service nginx restart
+
+Restart Lighttpd for php service
+
+# service lighttpd restart
+
+Restart PHP-FAM Fastcgi for PHP service
+
+#service php-fpm restart
+
+#service php5-fpm restart
+
+#service php7.0-fpm restart
