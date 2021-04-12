@@ -72,3 +72,7 @@ mysql> source /path_of_file/filename.sql;
 
 ----------------------------------------------------------------------------
 
+command to copy database from one server to another server
+
+mysqldump -hhost1 -uusername1 -ppassword1 database1 | mysql -hhost2 -uusername2 -ppassword2 database2
+
