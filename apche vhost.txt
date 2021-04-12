@@ -1,0 +1,85 @@
+sudo apt install apache2
+
+sudo mkdir -p /var/www/test.cyberbuddy.in/public_html
+sudo mkdir -p /var/www/test2.cyberbuddy.in/public_html
+
+sudo chown -R $USER:$USER /var/www/test.cyberbuddy.in/public_html
+sudo chown -R $USER:$USER /var/www/test2.cyberbuddy.in/public_html
+
+sudo chmod -R 755 /var/www
+
+sudo vi /var/www/test.cyberbuddy.in/public_html/index.html
+
+<html>
+  <head>
+    <title>Welcome to Example.com!</title>
+  </head>
+  <body>
+    <h1>Success! The example.com virtual host is working!</h1>
+  </body>
+</html>
+
+sudo cp /var/www/test.cyberbuddy.in/public_html/index.html /var/www/test2.cyberbuddy.in/public_html/index.html
+
+
+sudo vi /var/www/test2.cyberbuddy.in/public_html/index.html
+
+<html>
+  <head>
+    <title>Welcome to Test.com!</title>
+  </head>
+  <body> <h1>Success! The test.com virtual host is working!</h1>
+  </body>
+</html>
+
+sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/test.cyberbuddy.in.conf
+
+sudo vi /etc/apache2/sites-available/test.cyberbuddy.in.conf
+
+<VirtualHost *:80>
+    ServerAdmin admin@test.cyberbuddy.in
+    ServerName test.cyberbuddy.in
+    ServerAlias www.test.cyberbuddy.in
+    DocumentRoot /var/www/test.cyberbuddy.in/public_html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+sudo cp /etc/apache2/sites-available/test.cyberbuddy.in.conf /etc/apache2/sites-available/test2.cyberbuddy.in.conf
+
+sudo vi /etc/apache2/sites-available/test2.cyberbuddy.in.conf
+
+<VirtualHost *:80>
+    ServerAdmin admin@test2.cyberbuddy.in
+    ServerName test2.cyberbuddy.in
+    ServerAlias www.test2.cyberbuddy.in
+    DocumentRoot /var/www/test2.cyberbuddy.in/public_html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+sudo a2ensite test.cyberbuddy.in.conf
+sudo a2ensite test2.cyberbuddy.in.conf
+
+sudo a2dissite 000-default.conf
+
+sudo systemctl restart apache2
+
+sudo vi /etc/hosts
+
+127.0.0.1   localhost
+127.0.1.1   guest-desktop
+65.1.1.24 test.cyberbuddy.in
+65.1.1.24 test2.cyberbuddy.in
+
+http://test.cyberbuddy.in
+
+http://test2.cyberbuddy.in
+
+Done!!!
+
+
+
+
+
+

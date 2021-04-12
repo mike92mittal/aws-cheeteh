@@ -1,0 +1,48 @@
+1. sudo yum install -y nginx
+
+2. sudo mkdir -p /var/www/crazytechgeek.info/html
+
+3. sudo chown -R $USER:$USER /var/www/crazytechgeek.info/html
+
+4. sudo chmod -R 755 /var/www/crazytechgeek.info
+
+5. sudo vim /var/www/crazytechgeek.info/html/index.html
+
+<html>
+    <head>
+        <title>Welcome to your_domain!</title>
+    </head>
+    <body>
+  <h1>Bravo! Your server block is working as expected!</h1>
+    </body>
+</html>
+
+6. sudo vim /etc/nginx/sites-available/crazytechgeek.info
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/crazytechgeek.info/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name crazytechgeek.info www.crazytechgeek.info;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+		
+    access_log /var/log/nginx/crazytechgeek.info.access.log;
+    error_log /var/log/nginx/crazytechgeek.info.error.log;
+
+}
+
+7. sudo ln -s /etc/nginx/sites-available/crazytechgeek.info /etc/nginx/sites-enabled/
+
+8. sudo nginx -t
+
+9. sudo systemctl restart Nginx
+
+10. sudo systemctl status Nginx
+

@@ -1,0 +1,34 @@
+apt-get install vsftpd
+
+adduser mohit
+passwd mohit
+
+go to /etc/vsftpd.conf
+
+Add below lines
+pasv_enable=Yes
+pasv_min_port=10000
+pasv_max_port=11000
+#user_sub_token=$USER
+allow_writeable_chroot=YES
+#local_root=/var/www/html
+#local_root= %h
+userlist_enable=YES
+userlist_file=/etc/vsftpduserlist.conf
+userlist_deny=NO
+
+Save file
+
+create file with the name of vsftpduserlist.conf
+
+location : /etc/vsftpduserlist.conf
+
+add the created user in vsftpduserlist.conf
+
+restart vsftpd service
+
+give owner permission to the user
+
+chown -R mohit:mohit /var/www/html
+
+chmod -R 777 /var/www/html

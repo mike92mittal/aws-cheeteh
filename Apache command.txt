@@ -1,0 +1,58 @@
+check if alreaddy installed
+
+rpm -q httpd
+
+rpm -qa | grep -i httpd
+
+---------------------------------------------------------
+
+installation
+
+yum install httpd
+yum install httpd-devel
+yum install mod_perl
+yum install php php-mysql
+yum install openssl mod_ssl
+
+----------------------------------------------------------
+
+managing services
+
+systemctl status httpd
+systemctl start/stop/reload/restart httpd
+netstat -tupan | grep -i httpd
+netstat -tupan | grep -i '80\|443'
+ps aux | grep -i [h]ttp
+httpd -t
+httpd -v
+
+-----------------------------------------------------------
+
+configuration files
+
+/etc/httpd/conf/httpd.conf
+/etc/httpd/conf.d/*.conf
+
+------------------------------------------------------------
+
+log files
+
+/var/log/httpd/*
+
+------------------------------------------------------------
+
+pid file
+
+/var/run/httpd/httpd.pid
+
+-------------------------------------------------------------
+
+startup script
+
+/usr/lib/systemd/system/httpd.service
+/etc/init.d/httpd
+
+------------------------------------------------------------
+
+
+https://www.tecmint.com/apache-ip-based-and-name-based-virtual-hosting/

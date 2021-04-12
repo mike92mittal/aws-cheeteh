@@ -1,0 +1,22 @@
+Please follow the below steps to migrate full data from one server to another server: 
+
+step 1. Login into cPanel click on ftp account and create ftp account on New server.
+
+step 2. Fill all necessary details (Make sure to note-down all details about ftp account for future ) & click on create FTP account.
+
+step 3. Note-down imp detail to configure ftp clients server name, port number, username, password .
+
+step 4. Then go old server and take backup of your old server by clicking on Backup Wizard. Then Go to Full backup option and choose the backup destination as "Remote FTP Server"
+
+step 5. Then you have to fill up the credentials  like new server IP , new cPanel username and password , port-21 and remote destination field empty or the directory you want to move the backup. 
+
+step 6. Once the backup process completed the old server automatically transfer your data to new server.
+
+Important tips while migrate/transfer your data from one server to another server:
+
+1.If your storage less than 1 GB the process will take 15 min.
+
+2.If your storage more than 2 GB the process will take 25 min.
+so this data migration from from cPanel to cPanel take time depend on your storage.
+
+

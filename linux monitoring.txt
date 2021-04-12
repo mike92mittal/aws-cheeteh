@@ -1,0 +1,159 @@
+Cloudwatch Through script on linux using cli
+
+1- sudo yum install -y perl-Switch perl-DateTime perl-Sys-Syslog perl-LWP-Protocol-https perl-Digest-SHA.x86_64
+
+2- curl https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip -O
+
+3- unzip CloudWatchMonitoringScripts-1.2.2.zip
+
+4- rm CloudWatchMonitoringScripts-1.2.2.zip
+
+5- cd aws-scripts-mon 
+
+6- ./mon-put-instance-data.pl --mem-used
+
+7- ./mon-put-instance-data.pl --disk-path=/ --disk-space-used
+
+8- check the metrices in cloudwatch services
+
+9- it's done!!!
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+cloudwatch through Agent on linux
+
+1- create iam role- ec2-cloudwatch-agent-role for (cloudwatchagentserverpolicy)
+
+2- launch an ec2 linux instance with name (cloudwatch-agent-ec2) with open port 80 and 22 and attach iam role in ec2 instance
+
+3- ssh into instance
+
+4- download cloudwatch agent
+
+sudo wget https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm
+
+5- install cloudwatch agent
+
+sudo rpm -U ./amazon-cloudwatch-agent.rpm
+
+6- configure cloudwatch agent
+
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
+
+7- choose all the default option except don't install statsd and collectd. 
+select yes when asked to collect memory utilization metric. 
+select no when asked if you want to monitor log files.
+select no when asked if you want to store the config in the SSM parameter store
+
+8- start the agent
+
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s
+
+9- check the metrices in cloudwatch services
+
+10- it's done!!!
+
+----------------------------------------------------------------------------------------------------------------
+
+For centos
+
+sudo yum install wget
+
+all steps are same as above
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+cloud watch through Agent on Windows
+
+1- create an iam role- CWadmin for (amazonec2roleforssm) and (cloudwatchagentadminpolicy)
+
+2- launch an ec2 window instance and attach iam role in ec2 instance
+
+3- go to aws system manager and run command for aws-configureawspackage
+assign the above instance 
+assign the name as AmazonCloudWatchAgent in name tab
+disable the enable writing to an s3 bucket
+run the command
+
+4- take rdp into instance
+go to local disk C: and open program files there is one folder with name AmazonCloudWatchAgent
+open the folder and run the file amazon-cloudwatch-agent-config-wizard as admin
+configure the file
+
+5- choose all the default option except don't install statd and collectd. 
+select yes when asked to collect memory utilization metric. 
+select yes when asked if you want to monitor log files then assign the path as CWlogs 
+select no when asked if you want to monitor additional log files
+select yes when asked if you want to store the config in the SSM parameter store
+
+6- now go to parameter store and check there is one file created with name AmazonCloudWatch-windows 
+
+7- now run the command for AmazonCloudwatch-manageagent
+assign the above instance 
+assign the name as AmazonCloudWatch-windows in optional configuration location tab
+disable the enable writing to an s3 bucket
+run the command
+
+8- check the metrices in cloudwatch services
+
+9- it's done!!!
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

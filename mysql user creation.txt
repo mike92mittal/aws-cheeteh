@@ -1,0 +1,74 @@
+How to login into MYSQL through terminal
+
+sudo mysql -h hostname -u username -p
+
+-----------------------------------------------------------------------------
+
+Create a database
+
+mysql> create database databasename;
+
+----------------------------------------------------------------------------
+
+List all databases
+
+mysql> show databases;
+
+-----------------------------------------------------------------------------
+
+List all tables of test database
+
+mysql> use test;
+mysql> show tables;
+
+--------------------------------------------------------------------------
+
+To delete a database or a table
+
+mysql> drop database databasename;
+mysql> drop table tablename;
+
+-------------------------------------------------------------------------
+
+List all Users of MySQL
+
+mysql> select * from mysql.user;
+
+--------------------------------------------------------------------------
+
+List only Host, User and Password of MySQL
+
+mysql> select host, user, password from mysql.user;
+
+--------------------------------------------------------------------------
+
+Create a user in mysql
+
+mysql> CREATE USER ‘newuser’@’localhost’ IDENTIFIED BY ‘user_password’;
+
+-----------------------------------------------------------------------------
+
+Grand all privileges to a user account over a specific database
+
+mysql> GRANT ALL ON dbname.* TO ‘username’@’localhost’ IDENTIFIED BY ‘password’ ;
+
+--------------------------------------------------------------------------
+
+Change password of mysql user
+
+mysql>  ALTER USER  ‘username@localhost’ IDENTIFIED BY ‘new password’;
+
+--------------------------------------------------------------------------
+
+Take a backup of MySQL database
+
+shell>  mysqldump -u username -p –database databasename > databasename.sql
+
+-----------------------------------------------------------------------------
+
+Restore mysql backup
+
+mysql> source /path_of_file/filename.sql;
+
+----------------------------------------------------------------------------
+

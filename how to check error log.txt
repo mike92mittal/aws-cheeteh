@@ -1,0 +1,32 @@
+
+cd /etc/httpd/conf.d
+ll
+cat mbxd2h.in.conf
+cd /var/log/httpd/mbxd2h.in/
+ll
+cat mbxd2h.in.error.log
+tail -n 100 mbxd2h.in.error.log
+
+-------------------------------------------------------
+
+cd /var/log/
+tail -f apache2/error.log
+
+-------------------------------------------------------  
+cpu 
+
+htop
+top
+
+Ram
+
+free -mh
+
+Process
+
+ps -aux
+
+disk
+
+df -Th
+lsblk
