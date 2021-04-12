@@ -1,0 +1,30 @@
+sudo -i
+sudo apt-get update
+sudo apt-get install vsftpd
+
+open ftp port for ec2 instance
+
+Custom tcp port - 20-21
+Custom tcp port - 1024-1048
+
+------------------------------------------------------
+nano etc/vsftpd.conf
+
+anonymous_enable=NO
+uncomment writea_enable=YES
+uncomment chroot_local_user=YES
+
+Add these line at the enf od vsftpd.conf file
+
+pasv_enable=YES
+pasv_min_port=1024
+pasv_max_port=1048
+pasv_address=public ip of server
+allow_writeable_chroot=YES
+
+--------------------------------------------------------
+
+usermod -d /var/www/html usernamehere           for directory permission
+chmod -R 777 /var/www/html          		for download and upload code on server
+service apache2 restart
+service vsftpd restart
