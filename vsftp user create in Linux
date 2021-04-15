@@ -1,0 +1,40 @@
+ yum install vsftpd
+    2  systemctl start vsftpd
+    3  systemctl enable vsftpd
+    4  useradd samftp
+    5  passwd samftp
+    6  yum install httpd -y
+    7  systemctl restart httpd
+    8  systemctl enable httpd
+    9  cd /etc/vsftpd
+   10  ll
+   11  vim vsftpd.conf
+   12  systemctl restart vsftpd
+   13  vim vsftpd.conf
+   14  chmod -R 755 /var/www/html
+   15  chown -R samftp:samftp /var/www/html
+   
+   
+   
+   
+   
+   vsftp.conf
+   
+   
+   uncomment  chroot_local_user=YES
+
+   
+   
+   at the end 
+   
+   pasv_min_port=40000
+pasv_max_port=41000
+allow_writeable_chroot=YES
+local_root=/var/www/html
+
+:wq
+
+
+if you want user wonder every where
+
+comment  chroot_local_user=YES

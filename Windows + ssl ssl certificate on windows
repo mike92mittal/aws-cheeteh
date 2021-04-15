@@ -1,0 +1,14 @@
+when 
+
+.crt and  .p7b and key file is shared.
+
+
+First convert .p7b into cer
+
+openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
+
+then generate pfx
+
+openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile  cacert.cer
+
+

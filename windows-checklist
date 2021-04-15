@@ -1,0 +1,39 @@
+		APPLICATION SERVER
+
+1). Attach Elastic IP
+2). Add Drive IF ruquired
+3). Change Timezone
+4). Windows Update (To be Done At Last)
+5). Antivirus (Windows Defender)
+6). IIS
+7). Hostname
+    Internet Explorer (off)
+
+
+	Server Manager
+
+ADD ROLES AND FEATURES:
+
+8).  Server Roles (Enable IIS)
+9).  Features (Tick All .NET)
+10). Management O Data
+11). IIS Hostable
+12). Telnet Client
+13). WinRM IIS ext
+
+14). ROLES (Enable all)
+
+15). Install WebPlatform Installer
+
+17). INstall URL REWRITE
+18). Disable auto update
+
+19). OCP Tool
+
+	Security:
+
+20). Disable Task Schedular
+21). Disable Internet
+22). Enable Best performance
+23). Audit Policy
+24). Custom Port

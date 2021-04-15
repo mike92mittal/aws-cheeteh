@@ -1,0 +1,1 @@
+ssh -L 3333:10.10.3.200:3389 -i /home/praveensharma/Desktop/i2k2/awssupport/MMTC_Bastion_Key.pem ec2-user@52.221.157.70 -p 5726

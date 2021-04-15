@@ -1,0 +1,73 @@
+https://medium.com/@mohan08p/install-and-renew-lets-encrypt-ssl-on-amazon-ami-6d3e0a61693
+
+
+==========================================================================================
+
+Install and Renew Let’s Encrypt SSL on Amazon AMI
+Mohan Pawar
+Mohan Pawar
+Feb 27, 2018 · 2 min read
+
+Installing LetsEncrypt’s free SSL certificate on Amazon Linux
+
+In this article, I will install the free SSL certificate on your site which is running on Amazon AMI.
+
+If you want to install on your standalone server, you can directly follow Certbot’s document rather than doing all these steps manually. It will automatically enable HTTPS on your website with EFF’s Certbot, deploying Let’s Encrypt certificates.
+
+I’m assuming that you are running Apache on an Amazon Linux EC2 instance(Similar guides are present for Nginx web server). We’ll install a free SSL certificate from Let’s Encrypt and configure it to automatically renew.
+
+Part I: Install SSL Certifcates
+
+Before beginning. Be sure to disable any caching plug-ins you have installed.
+
+    SSH into your server.
+    Download certbot (the Let’s Encrypt client need to install & renew certs)
+
+$ wget https://dl.eff.org/certbot-auto
+$ chmod a+x certbot-auto
+
+3. Run certbot to fetch your certificates…(and remember to change the parameter YOUR_WEBSITE_HERE with your DNS name or server IP address)
+
+$ sudo ./certbot-auto --debug -v --server https://acme-v01.api.letsencrypt.org/directory certonly -d YOUR_WEBSITE_HERE
+
+4. This will launch a visual wizard. You’ll need to enter an admin email, and then point it at your web root (the directory your website is actually hosted out of). On Amazon Linux, this is likely /var/www/html, in general. Once finished with the wizard, you’ll have valid SSL certificates. Now we just need to add them to Apache!
+
+5. certbot will place your certs in the following paths…
+
+    Certificate: /etc/letsencrypt/live/YOUR_WEBSITE_HERE/cert.pem
+    Full Chain: /etc/letsencrypt/live/YOUR_WEBSITE_HERE/fullchain.pem
+    Private Key: /etc/letsencrypt/live/YOUR_WEBSITE_HERE/privkey.pem
+
+6. Edit your SSL config…
+
+$ sudo vim /etc/httpd/conf.d/ssl.conf
+
+As shown above change the path your SSL generated in the above step as shown in step 5,
+
+    Set SSLCertificateFile to your Certificate path.
+    Set SSLCertificateKeyFile to your Private Key path.
+    Set SSLCertificateChainFile to your Full Chain path.
+
+7. Finally, restart the apache service.
+
+$ sudo service httpd restart
+
+Part II: Setup SSL Auto-renew
+
+All Let’s Encrypt certificates are only good for 90 days, so it’s best to configure the certificates to automatically renew. To achieve this, we just need to set up a simple cron job…
+
+    Switch to the sudo user…
+
+$ sudo -i
+
+2. Edit crontab (a listing of all the account’s cron jobs)
+
+$ crontab -e
+
+3. Add the following line to run the renewal each weekend(at 2.30am, respectively):
+
+30 2 * * Sun /home/ec2-user/certbot-auto renew
+
+That’s it. And that is all there is! Now, your free SSL certificates will automatically renew without you ever having to lift a finger again.
+
+Note: In the event your cron job malfunctions and your certificate is about to expire, Let’s Encrypt will send an email to whatever admin email address you provided during the wizard process as a warning. So be double sure that your admin email is valid and that you can access it !

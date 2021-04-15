@@ -1,0 +1,3 @@
+ automatically reboot server......windows(systemuser - user32 problem)
+ this pc--> property-------> advance setting -----> startup & recovery----> automatically start uncheck
+ this pc--> property-------> advance setting -----> startup & recovery---->advance------>performace - ---> setting------> automatically restart(uncheck)

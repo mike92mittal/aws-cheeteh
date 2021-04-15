@@ -1,0 +1,19 @@
+Subsystem sftp internal-sftp
+
+  Match Group apache
+   ChrootDirectory /var/www
+   ForceCommand internal-sftp
+   X11Forwarding no
+   AllowTcpForwarding no
+
+
+
+
+ usermod -G apache saurabh
+   83  chown -R saurabh:apache /var/www/html
+   84  vim /etc/ssh/sshd_config
+   85  vim /etc/passwd
+   86  vim /etc/passwd
+   87  vim /etc/passwd
+   88  vim /etc/ssh/sshd_config
+   89  systemctl restart sshd.service

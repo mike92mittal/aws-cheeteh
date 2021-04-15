@@ -1,0 +1,33 @@
+configure aws cli :: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html
+create s3 bucket cli  :: https://docs.aws.amazon.com/cli/latest/userguide/cli-services-s3-commands.html 
+
+
+############install aws cli
+apt install python3-pip
+pip3 install awscli --upgrade --user
+#########check
+which aws
+#############configure
+aws configure
+need : access/private key   / dns zone / json
+#########################################################
+create bucket :
+aws s3 mb s3://bucket-name
+
+
+s3 commands ::
+aws s3 cp file.txt s3://bucket-name
+aws s3 mv file.txt s3://bucket-name
+
+#########################################################
+
+
+script ::
+cd /var/www/
+sudo tar -cvzf /home/ec2-user/s3backup/Backuphtml-$(date +"%Y-%m-%d").tar html/
+aws s3 mv /home/ec2-user/s3backup/Backuphtml-$(date +"%Y-%m-%d").tar s3://misostudy-backup/CodeBackup/
+
+
+
+S3 bucket : retention link
+https://www.joe0.com/2017/05/24/amazon-s3-how-to-delete-files-older-than-x-days/

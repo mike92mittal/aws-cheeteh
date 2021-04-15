@@ -1,0 +1,99 @@
+ssl deployment in centos
+====================================
+
+
+
+1) create chain file(intermediate + root)
+intermediate
++
+root
+
+api.lookchup.com.cer.chain.crt
+
+2) certificate file
+api.lookchup.com.crt
+
+3) key file 
+
+api_lookchup_com.key
+
+put somewhere in the server e.g - /opt/api.lookchup-ssl (in my case)
+
+====================================================================================
+
+create two virtual host for port 80 and 443 as shown below.
+
+for redirection  http to https
+#see the url https://linuxtechlab.com/redirect-http-to-https-apache-server/ 
+
+<Location />
+Redirect permanent / https://api.lookchup.com/
+
+</Location>
+
+
+
+
+api.lookchup.conf
+
+<VirtualHost 10.10.3.237:80>
+
+ServerName api.lookchup.com
+
+ServerSignature Off
+
+CustomLog /home/apilookchup/logs/apilookchup_access.bytes bytes
+CustomLog /home/apilookchup/logs/apilookchup_access.log combined
+ErrorLog /home/apilookchup/logs/apilookchup.error.log
+
+
+DocumentRoot /home/apilookchup/public_html/
+
+<Directory "/home/apilookchup/public_html/">
+Options -Indexes
+allow from all
+</Directory>
+
+
+</VirtualHost>
+~
+
+
+
+
+
+<VirtualHost 10.10.3.237:443>
+
+ServerName api.lookchup.com
+
+ServerSignature Off
+
+CustomLog /home/apilookchup/logs/apilookchup_access.bytes bytes
+CustomLog /home/apilookchup/logs/apilookchup_access.log combined
+ErrorLog /home/apilookchup/logs/apilookchup.error.log
+
+SSLEngine on
+SSLCertificateFile /opt/api.lookkchup-ssl/api.lookchup.com.crt
+SSLCertificateKeyFile /opt/api.lookkchup-ssl/api_lookchup_com.key
+SSLCertificateChainFile /opt/api.lookkchup-ssl/api.lookchup.com.cer.chain.crt
+
+DocumentRoot /home/apilookchup/public_html/
+
+<Directory "/home/apilookchup/public_html/">
+Options -Indexes
+allow from all
+</Directory>
+
+
+</VirtualHost>
+
+
+=============================================================================================================
+paste chain file on chain file place ---- uncomment   SSLCertificateChainFile 
+
+in apache2
+enable 
+a2ensite sitename.conf
+a2enmod rewrite
+
+

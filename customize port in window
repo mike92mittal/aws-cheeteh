@@ -1,0 +1,12 @@
+Custom RDP port for Windows
+
+Run :>regedit
+HKEY_LOCAL_MACHINE
+SYSTEM
+CurrentControlSet
+Control
+Terminal Server
+RDP-TCP
+Search and edit port number
+Add new Inbound rule for the same in firewall
+Disabled previous rule

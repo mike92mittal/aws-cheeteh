@@ -1,0 +1,72 @@
+exec msdb.dbo.rds_restore_database 
+        @restore_db_name='sqldb04, 
+        @s3_arn_to_restore_from='arn:aws:s3:::aimabackup-5dec19/sqldb04.bak';
+
+exec msdb.dbo.rds_restore_database 
+        @restore_db_name='sqldb08'
+        @s3_arn_to_restore_from='arn:aws:s3:::aimabackupnew/sqldb04.bak';
+
+
+
+exec msdb.dbo.rds_restore_database 
+        @restore_db_name='sqldb04', 
+        @s3_arn_to_restore_from='arn:aws:s3:::aimabackup-5dec19/sqldb04.bak';
+
+
+exec msdb.dbo.rds_task_status @db_name='sqldb08';
+===============================
+
+aws s3 sync s3://SOURCE_BUCKET_NAME s3://NEW_BUCKET_NAME
+
+aws s3 sync s3://aimabackup-5dec19 s3://aimabackup
+
+exec msdb.dbo.rds_restore_database
+@restore_db_name='sqldb04',
+@s3_arn_to_restore_from='arn:aws:s3:::aimabackup/sqldb04.bak'
+
+exec msdb.dbo.rds_restore_database 
+        @restore_db_name='sqldb04, 
+        @s3_arn_to_restore_from='arn:aws:s3:::aimabackupnew/sqldb01.bak';
+
+1vPJVRXczSYd
+ftp.abc.com|userweb507
+
+
+aws s3 cp D:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Backup  s3:///aimabackupnew/ --recursive
+
+aws s3 cp D:\Html\users\userweb501\Html\NIFT2020NRI  s3://nift2020nri/ --recursive
+
+aws s3 sync D:\Html\users\userweb500\Html\aimaTestCentre s3://migrationbucketnew-5dec19/aimaTestCentre/ --recursive
+
+aws s3 cp s3://jet2020 . --recursive
+aws s3 cp s3://aimatestcentre . --recursive
+
+
+{
+  "Version": "2008-10-17",
+  "Statement": [{
+    "Sid": "AllowPublicRead",
+    "Effect": "Allow",
+    "Principal": { "AWS": "*" },
+    "Action": ["s3:GetObject"],
+    "Resource": ["arn:aws:s3:::migrationbucketnew-5dec19/*" ]
+
+
+  }]
+}
+
+aws s3 cp s3://migrationbucket-5dec19 . --recursive
+
+
+aws s3 cp s3://rites2020 . --recursive
+
+==================================================================
+In Linux
+
+aws s3 cp COMPLETE_DATA_BACKUP_databackup_0_1 s3://production-server-aptxsapph1/hana/data/backup/DB_PH1/DB_PH1/
+
+
+
+aaa.in
+ftp.aaa.in|userweb508
+Bdm54nT#pw0U

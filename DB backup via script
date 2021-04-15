@@ -1,0 +1,28 @@
+
+
+Backup all:
+ 
+#!/bin/bash
+time=$(date +%Y%m%d%H%M)
+echo creating backup of config, events, trigger history..
+mysqldump -hlocalhost -uroot -ppQtg3kqq5S9PGFGC \
+--flush-logs \
+--single-transaction \
+--create-options \
+zabbix | gzip > /root/$time.all.sql.gz
+ 
+Copying database:-
+scp /tmp/pending 10.10.1.86:/tmp/ 
+
+Restore:
+ 
+yum -y install bzip2
+mysql -uzabbix -p
+#drop database zabbix;
+#CREATE DATABASE zabbix CHARACTER SET UTF8 collate utf8_bin;
+#GRANT ALL PRIVILEGES on zabbix.* to "zabbix"@"localhost" IDENTIFIED BY "zabbix";
+#quit
+bzcat dbdump.bz2 | sudo mysql -uzabbix -pzabbix zabbix
+
+Feel free to contact if you have any query regarding the same.
+

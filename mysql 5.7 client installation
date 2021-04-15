@@ -1,0 +1,8 @@
+wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+   54  yum localinstall mysql57-community-release-el7-11.noarch.rpm
+   55  yum install mysql-client*
+   56  yum install mysql-client
+   57  yum install mysql
+   58  yum install mysql-community-client 
+   59  mysql -V
+

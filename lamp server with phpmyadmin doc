@@ -1,0 +1,60 @@
+    1  yum update
+    2  yum install epel-release
+    3  amazon-linux-extras install epel
+    4  yum repolist
+    5  rpm -Uvh http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+    6  cd /etc/yum.repos.d/
+    7  ls
+    8  vim remi-php72.repo
+    9  yum repolist
+   10  yum install httpd -y
+   11  cd
+   12  systemctl start httpd
+   13  systemctl enable httpd
+   14  yum install php72 php72-php-fpm php72-php-gd php72-php-json php72-php-mbstring php72-php-mysqlnd php72-php-xml php72-php-xmlrpc php72-php-opcache
+   15  yum install php72-php
+   16  php72 --modules | grep mbstring
+   17  php72 --modules | grep mcrypt
+   18  yum install php72-php-mcrypt
+   19  php72 --modules | grep mcrypt
+   20  php72 --modules | grep gd
+   21  echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
+   22  systemctl restart httpd
+   23  curl ipinfo.io
+   24  cd /opt/
+   25  wget https://files.phpmyadmin.net/phpMyAdmin/4.8.3/phpMyAdmin-4.8.3-english.zip
+   26  ls
+   27  unzip phpMyAdmin-4.8.3-english.zip
+   28  ls
+   29  mv phpMyAdmin-4.8.3-english phpmyadmin
+   30  ls
+   31  rm -rf phpMyAdmin-4.8.3-english.zip
+   32  ls /var/www/html/
+   33  ln -s /opt/phpmyadmin /var/www/html/phpmyadmin
+   34  ls /var/www/html/
+   35  cd phpmyadmin/
+   36  cp config.sample.inc.php  bak.config.sample.inc.php
+   37  mv config.sample.inc.php config.inc.php
+   38  systemctl enable php72-php-fpm.service
+   39  rpm -Uvh https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm
+   40  cd /etc/yum.repos.d/
+   41  ls
+   42  vim mysql-community.repo
+   43  yum repolist
+   44  yum install mysql-community-server
+   45  cd
+   46  systemctl start mysqld
+   47  systemctl status mysqld.service
+   48  grep 'A temporary password' /var/log/mysqld.log
+   49  mysql_secure_installation 
+   50  systemctl restart mysqld
+   51  cd /opt/phpmyadmin/
+   52  ls
+   53  vim config.inc.php (To set blowfish_secret password then resolve error in phpmyadmin)
+   54  systemctl restart mysqld
+   55  cd ..
+   56  cd
+   57  cd /opt/phpmyadmin/
+   58  mkdir tmp
+   59  chown apache:apache tmp
+

@@ -1,0 +1,114 @@
+How can I reset the administrator password on an EC2 Windows instance?
+Last updated: 2019-09-17
+
+I want to reset the administrator password on my Amazon Elastic Compute Cloud (Amazon EC2) Windows instance. How can I do that?
+
+Resolution
+You can use AWS Systems Manager or EC2Rescue to reset the administrator password on your EC2 Windows instance.
+
+Systems Manager Run Command AWSSupport-RunEC2RescueForWindowsTool (Online Method)
+
+Prerequisites:
+
+You must configure Systems Manager for your AWS account, and then install the Systems Manager agent on the instance. For more information, see Setting Up AWS Systems Manager.
+The instance must have internet access (for Systems Manager) using a public IP address or NAT.
+or
+The instance must use an Amazon Virtual Private Cloud (Amazon VPC) endpoint configured for Systems Manager.
+For more information, see VPC Endpoints.
+To reset the administrator password with Systems Manager using the Run Command, follow these steps:
+
+1.    Attach the following policy to the IAM role associated with the instance in order to write the encrypted password to Parameter Store.
+{ 
+  "Version": "2012-10-17", 
+  "Statement": [ 
+    { 
+      "Effect": "Allow", 
+      "Action": [ 
+      "ssm:PutParameter" 
+      ], 
+      "Resource": [ 
+        "arn:aws:ssm:*:*:parameter/EC2Rescue/Passwords/i-*" 
+        ] 
+    } 
+  ] 
+} 
+2.    Open the AWS Systems Manager console, and then choose Run Command from the navigation pane.
+
+3.    Choose Run command.
+
+4.    For Command document, choose AWSSupport-RunEC2RescueForWindowsTool.
+
+5.    For Command parameters, verify that Command is set to ResetAccess.
+
+6.    For Targets, choose Choose instances manually, and then select your instance.
+
+7.    Choose Run.
+
+8.    In the Targets and outputs section, select the Instance ID for your instance.
+
+9.    Choose View output for instructions on how to retrieve the new password.
+
+10.    After you regain access to your instance, it’s a best practice to rotate the password and then delete the parameter from Parameter Store.
+
+For more information, see Using EC2Rescue for Windows Server with Systems Manager Run Command.
+
+Systems Manager Automation AWSSupport-ResetAccess (Offline Method)
+
+AWSSupport-ResetAccess is a Systems Manager Automation document that automates EC2Rescue offline password reset using AWS CloudFormation and AWS Lambda functions. The automation document will:
+
+Create an instance to assist with recovery in your Availability Zone.
+Attach and detach EBS volumes.
+Run the EC2Rescue utility.
+Create an Amazon VPC for EC2Rescue to use that is isolated from your environment.
+Create a backup AMI of the instance.
+You can use the AWSSupport-ResetAccess document if:
+
+You lost your EC2 key pair and want to create a password-enabled AMI from your EC2 instance to launch a new instance with an existing key pair.
+You lost your local administrator password and want to generate a new password that you can decrypt with the current EC2 key pair.
+1.    Open the AWS Systems Manager console, and then choose Automation from the navigation pane.
+
+2.    Choose Execute automation.
+
+3.    For Automation document, choose AWSSupport-ResetAccess, and then choose Next.
+
+4.    For Input parameters, enter the InstanceID of your EC2 instance.
+
+5.    Choose Execute.
+
+6.    Wait until the execution state changes to Success. This can take up to 25 minutes.
+
+Note: On the Execution detail page, view Executed steps to monitor the execution progress. Expand Outputs to view the output of the automation. To return to this page, open the AWS Systems Manager console, and then choose Automation from the navigation pane. Select the running automation, and then choose View details.
+
+7.    Use your existing key pair to decode the newly generated password from the EC2 console. For more information, see How do I retrieve my Windows administrator password after launching an instance?
+
+If you lost your EC2 key pair
+
+1.    Stop your instance.
+
+Warning: Before you stop an instance, be aware of the following:
+
+If you're not using an Elastic IP Address, the public IP address is released when you stop the instance.
+If this instance has an instance store volume, any data on it is lost when the instance is stopped.
+If the instance shutdown behavior is set to Terminate, then the instance terminates when it is stopped.
+If the instance is part of an Auto Scaling group, first detach the instance from the Auto Scaling Group. Then, after you stop and start the instance, attach the instance back to the Auto Scaling group.
+For more information, see Stop and Start Your Instance.
+
+2.    Open the Amazon EC2 console, and then choose AMIs.
+
+3.    Search for your instance ID.
+
+4.    Select the AMI named AWSSupport-EC2Rescue: Password-enabled, and then choose Launch.
+
+5.    Follow the Launch Wizard to specify the configuration of your instance, and then select a key pair that you own.
+
+6.    Verify that you can connect to the new instance and that your applications are working as expected before terminating the other instance.
+
+EC2Rescue (Offline or Online Method)
+
+To regenerate the Administrator password at next boot, you can enable EC2SetPassword using EC2Rescue:
+
+1.    Choose Diagnose and Rescue. The EC2Config section shows the current Ec2SetPassword setting. Choose Next.
+
+2.    In Detect possible issues, select the Ec2SetPassword check box, and then choose Next.
+
+For more information, see How can I troubleshoot issues with my EC2 Windows instance by using the EC2Rescue tool?

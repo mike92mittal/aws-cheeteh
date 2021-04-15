@@ -1,0 +1,9 @@
+Create database abc;
+
+CREATE USER 'netpaisa_masterpey_user'@'%' IDENTIFIED BY 'P$Ma2abbq=S"vQp3>v}7/';
+
+
+ GRANT ALL PRIVILEGES ON netpaisa_masterpey.* To 'netpaisa_masterpey_user'@'%' IDENTIFIED BY 'H$Ma2abbq=S"vQp3>v}7/';
+
+
+GRANT ALL PRIVILEGES ON netpaisa_db.* To 'netpaisa_db_dbuser'@'%' IDENTIFIED BY 'xCmEza4Nx[T)H)Tv';

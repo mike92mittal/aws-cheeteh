@@ -1,0 +1,106 @@
+      LINUX CHECKLIST / WebServer Guide
+############################################################################################################################################		
+1. VirtualHost/APACHE
+
+a. Create virtualhost for every domain
+b.     CustomLog /var/log/apache2/domains/xs.life.bytes bytes
+       CustomLog /var/log/apache2/domains/xs.life.log combined
+       ErrorLog /var/log/apache2/domains/xs.life.error.log
+
+c. enable gzip compresiion.
+d. seperate home directory  for every domain
+    ex :
+	home     -> example.com -> public_html
+  root:root      root:root       apache:apache
+
+  File Permession should be 755 for Diretroy anf 644 for Website
+   
+
+############################################################################################################################################		
+
+2. MYSQL :
+   1. run mysql_secure_installation 
+   2. do not use user with  root access  privileged  in Website Code.
+   3. enable mysql logs
+   
+############################################################################################################################################		   
+3. PHP :
+a. enable php logs.
+b. update disable_function :disable_functions = pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,
+                            pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,
+							pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,
+							pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,shell_exec,phpinfo,   
+
+c. remove phpinfo file from website root .
+
+
+
+############################################################################################################################################		
+Modules for Apache ::
+1. Apache 2 ITK MPM    :: used to assign user and group to virtualHost directory.
+
+ <IfModule itk.c>
+        AssignUserID admin admin
+    </IfModule>
+	
+2.  module mod_ruid2 : module use for security with module itk.
+
+ <IfModule mod_ruid2.c>
+        RMode config
+        RUidGid admin admin
+        RGroups www-data
+    </IfModule>
+
+3. 	rewrite :: used for htacces.
+
+4. Use mod_security Modules to Secure Apache :
+
+  Some time mod_security cause issue to Website - like on internal pages always check after install.
+  
+5.  mod_evasive  Modules to Secure Apache : It prevents HTTP brute force and DDOS attacks
+
+############################################################################################################################################	
+Security :
+
+1. hide Apache Version and OS Identity from Errors :
+             ServerSignature Off
+			 ServerTokens Prod
+			 
+2. Disable Directory Listing :			 
+           Options -Indexes
+		   
+3. Use Updated Apache Version and update reglarly. 
+
+4. Limit Request Size : By default apache has no limit on the total size of the HTTP request.
+						 i.e. unlimited and when you allow large requests on a web server its possible that you could be a victim of 
+						 Denial of service attacks
+						 
+						<Directory "/var/www/rajatinfo.ml/uploads">
+							LimitRequestBody 512000
+								</Directory>
+								
+5. 	Secure Server with SSL 
+
+6. Etag : It allows remote attackers to obtain sensitive information like inode number,
+          multipart MIME boundary, and child process through Etag header		
+          ex : FileETag None
+		  
+7. change permession of apache conf dir to 750
+
+8. Disable Trace HTTP Reques : disble telnet 192.168.1.22 80		  
+								ex : TraceEnable off
+								
+9.	secure from Clickjacking Attack :   Header always append X-Frame-Options SAMEORIGIN		
+
+10. X-XSS Protection : 		Header set X-XSS-Protection "1; mode=block"
+
+11. Timeout value configuration : Timeout 60  
+    apache default timoue os 300s  which can be a victim of Slow Loris attack and DoS.
+	
+12. SSL :
+
+  SSL Cipher : SSLCipherSuite HIGH:!MEDIUM:!aNULL:!MD5:!RC4
+  Disable SSL v2 & v3 : SSLProtocol â€“ALL +TLSv1.2
+
+  
+############################################################################################################################################	

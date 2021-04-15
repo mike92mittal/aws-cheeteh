@@ -1,0 +1,85 @@
+Redirect http to https: Apache Server
+by Shusain · Published November 15, 2018 · Updated November 15, 2018
+SSL secured webstites or HTTPS has now become a must to have on website, especially those handling sensitive client information. Having a HTTPS enabled website means that a intruder can’t intrude to communication between users & website.
+HTTPS not only secures communication but is now a requirement for many new features like http2, which requires you to have https enabled on your server. Having a HTTPS enabled website also improves your Google SEO (Search Engine Optimization) ranking.
+HTTPS uses a SSL certificate to secure your website, we have already discussed about SSL certificates in our previous tutorials HERE & HERE .
+In this tutorial, we will discuss how we can move web server traffic to https i.e. traffic redirect http to https on Apache servers.
+( Also Read : – Installing mod_pagespeed for Apache Webserver )
+( Also Read:- How to install VARNISH for Apache Webserver )
+ 
+We will be discussing three different methods to redirect all the web traffic i.e. redirect http to https. But before we do that let’s see the files which we will use to make the redirection of http to https,
+
+/etc/httpd/conf/httpd.conf (RHEL/CentOS)- If you have access to this & have defined the Apache hosts entries in httpd.conf, than use this file to define the redirection options. There can be another user defined location, for ex /etc/httpd/conf/virtual-hosts.conf. But there will be entry for the same in httpd.conf, like
+include /virtual-hosts.conf
+If you are using a custom location for defining the virtual hosts, than that’s where you will make the redirection entry.
+/etc/apache2/sites-available/test.com (Ubuntu)- This file is same as custom defined virtual hosts configuration file. If using Ubuntu, than make redirection entry to this file. Here test.com is the name of the website.
+.htaccess- This file is used when handling a number of servers or when you don’t have access to main configuration file like in case of wordpress installation but you can also use it on any case as well. This file is usually located in the root of the website.
+All these files can be used to redirect traffic, so choose the file that’s suitable to your needs.
+ 
+Method 1 : Using Redirect
+This method is pretty simple, make the following entry in virtual host config file (httpd.conf for CentOS/RHEL or test.com for Ubuntu),
+<VirtualHost *:80>
+ServerName test.com
+<Location />
+Redirect permanent / https://test.com/
+
+</Location>
+</VirtualHost>
+ 
+<VirtualHost *:443>
+ServerName example.com
+DocumentRoot /var/www/html/test.com
+SSLEngine On
+SSLCertificateFile /etc/apache2/ssl/test.com.crt
+SSLCertificateKeyFile /etc/apache2/ssl/test.com.key
+SSLCertificateChainFile /etc/apache2/ssl/test.com.ca-bundle
+</VirtualHost>
+ 
+
+If using .htaccess file, make the following entry to the file,
+Redirect permanent / https://test.com/
+Save the file & web server traffic redirect http to https would start working.
+ 
+Method 2 : Using mod_rewrite
+This is my personal favorite method. Here we will use mod_rewrite module to redirect the traffic to https. To use this method, make sure that we have mod_rewrite module enabled. To enable mod_rewrite module, open file ‘httpd.conf’ & make the following entry
+For CentOS
+$ vi /etc/httpd/conf/httpd.conf
+LoadModule rewrite_module modules/mod_rewrite.so
+ 
+For Ubuntu
+$ sudo a2enmod rewrite
+Restart the Apache service to implement the changes. Next make the following entry in the virtual host file ( httpd.conf for CentOS/RHEL or test.com for Ubuntu )
+<VirtualHost *:80>
+ServerName test.com
+RewriteEngine On
+
+RewriteCond %{HTTPS} !on
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+</VirtualHost>
+ 
+<VirtualHost *:443>
+ServerName example.com
+DocumentRoot /var/www/html/test.com
+SSLEngine On
+SSLCertificateFile /etc/apache2/ssl/test.com.crt
+SSLCertificateKeyFile /etc/apache2/ssl/test.com.key
+SSLCertificateChainFile /etc/apache2/ssl/test.com.ca-bundle
+</VirtualHost>
+ 
+For .htaccess file make the following entry to the file,
+RewriteEngine On
+RewriteCond %{HTTPS} !on
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+ 
+Note:- Make sure that you are not duplicating ‘RewriteEngine On’ & that the ‘RewriteCond’ , ‘RewriteRule’ immediately follow ‘RewriteEngine’.
+ 
+Method 3 : Using PHP
+Using this method, we can create a function to redirect traffic & call this function in the page when we need to redirect the traffic or on top of all the scripts. Use the following PHP code,
+< ?php
+function redirectTohttps() {
+if($_SERVER[‘HTTPS’]!=”on”) {
+$redirect= “https://”.$_SERVER[‘HTTP_HOST’].$_SERVER[‘REQUEST_URI’];
+header(“Location:$redirect”); } }
+?>
+Before you use this code, make sure that SSL has been properly configured.
+This was our tutorial on how we can redirect http to https for Apache webservers. If have any issues, please feel free to send in your comments/queries using the comment box below.

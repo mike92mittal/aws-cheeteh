@@ -1,0 +1,95 @@
+As discussed the Life-Cycle rules are correctly set and are working as expected.
+
+You do not need to create a Glacier vault, unless of course you specifically want you Objects to be in the Vault rather than S3 Glacier. There are several advantages of using your current method of transitioning objects to Glacier storage-class in S3. One advantage is that you will be charged for storage at Glacier price. Other advantages include:
+
+a. You can easily see and interact with your Objects using the S3 Console and AWS-CLI, for example you can restore, download and delete the objects as needed
+b. You can manage the object Life-Cycle using the Life-Cycle rules, to transition to other storage class like Glacier Deep Archive which is even cheaper then Glacier in terms of storage pricing
+c. You can easily enjoy the Distributed and highly scalable S3 API and performance when interacting with the objects
+
+To clarify, Objects transitioned to S3 glacier-storage-class will only appear in your S3 bucket, it will not appear in any Glacier Vault you created, please note Glacier Vault is a separate Service. The objects in S3 glacier-storage-class are stored in a Service managed Vault.
+
+Please see below point to consider regarding storing objects in S3 glacier-storage-class:
+
+1. You will be charged one-time fee of $0.05 per 1,000 requests for the Life-Cycle Transition Requests into Glacier. However, you will be charged storage pricing as Glacier at $0.004 per GB / Month. For each object archived to GLACIER S3 uses 8 KB of storage for the name of the object and other metadata. Amazon S3 stores this metadata so that you can get a real-time list of your archived objects by using the Amazon S3 API. You are charged Amazon S3 STANDARD rates for this additional storage. For each object that is archived to GLACIER S3 adds 32 KB of storage for index and related metadata. This extra data is necessary to identify and restore your object. You are charged GLACIER rates for this additional storage
+2. An S3 object archived to Glacier is visible if you do a List or view the contents of the bucket, but is not available in real-time. What this means is that to GET (download) the objects, you have to first do a restore[3]. This can be done from the console or programmatically.
+3. Please note that object restoration from an archive might range from 5 minutes to 5 hours depending on the retrieval option [4] you selected
+4. Transition of objects to Glacier storage class is one-way. What this means, is that you cannot use Life-Cycle policy to convert Archived objects (glacier storage class) to the standard S3 objects (standard storage class). You have to first restore the object then use a copy operation to overwrite it as standard S3 object.
+5. The archived objects are only visible and available only through S3 API and Console, not through Glacier Vault service API or console
+
+You can restore whole folders/prefix using S3 Batch-Operations [5] or using the AWS-CLI [6]. You will be charged for retrieval and API requests for downloading the Objects.
+
+I hope this helps, please feel free to contact me if you need additional information or assistance.
+
+Related Information:
+[1] User guide, Life-Cycle Rule:
+http://docs.aws.amazon.com/AmazonS3/latest/user-guide/create-lifecycle.html
+https://aws.amazon.com/blogs/aws/archive-s3-to-glacier/
+https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html
+[2] General Considerations S3 Glacier Archiving:
+http://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html
+https://aws.amazon.com/blogs/aws/archive-s3-to-glacier/
+https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html
+https://aws.amazon.com/blogs/aws/aws-storage-update-s3-glacier-price-reductions/
+[3] Restore Objects from S3 Glacier:
+https://aws.amazon.com/premiumsupport/knowledge-center/restore-glacier-tiers/
+https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html
+https://docs.aws.amazon.com/AmazonS3/latest/user-guide/restore-archived-objects.html#restore-archived-objects-retrieval-options
+https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html
+https://aws.amazon.com/blogs/aws/aws-storage-update-s3-glacier-price-reductions/
+[4] Retrieval Options and Pricing:
+Expedited        $0.02 per GB
+Standard        $0.008 per GB
+Bulk        $0.001 per GB
+https://aws.amazon.com/glacier/pricing/
+https://aws.amazon.com/premiumsupport/knowledge-center/glacier-provisioned-capacity/
+https://docs.aws.amazon.com/amazonglacier/latest/dev/downloading-an-archive-two-steps.html#api-downloading-an-archive-two-steps-retrieval-expedited-capacity
+https://docs.aws.amazon.com/amazonglacier/latest/dev/api-PurchaseProvisionedCapacity.html
+[5] S3 Batch Operations:
+https://docs.aws.amazon.com/AmazonS3/latest/user-guide/batch-ops.html
+https://www.youtube.com/watch?v=hUv34voEftc
+https://www.youtube.com/watch?v=EYo0dgJoaYs
+https://www.youtube.com/watch?v=CuMDH6c0zm4
+https://docs.aws.amazon.com/AmazonS3/latest/user-guide/batch-ops.html
+[6] Performing Restores from S3 Glacier StorageClass with AWS-CLI:
+
+1. Create a bash script name restore-wrapper with this content:
+
+$ nano restore-wrapper
+
+#!/bin/bash
+aws s3api restore-object "$@"
+exit 0
+
+2. Make it executable with:
+$ chmod 700 restore-wrapper
+
+3. Then run below command to start the restore:
+$ aws s3api list-objects-v2 --bucket MY_BUCKET --prefix "MY_FOLDER" --query 'Contents[?StorageClass==`GLACIER`][Key]' --output text | cut -f3 | xargs -I {} -P3 ./restore-wrapper --bucket MY_BUCKET --key {} --restore-request Days=7,GlacierJobParameters={Tier=Standard}
+
+To download it to your local directory:
+
+$ aws s3 sync s3://MY_BUCKET . --force-glacier-transfer
+OR
+$ aws s3 cp s3://MY_BUCKET .  --force-glacier-transfer --recursive
+
+Best regards,
+
+Emmanuel O.
+Amazon Web Services
+
+Check out the AWS Support Knowledge Center, a knowledge base of articles and videos that answer customer questions about AWS services: https://aws.amazon.com/premiumsupport/knowledge-center/?icmpid=support_email_category
+
+We value your feedback. Please rate my response using the link below.
+===================================================
+
+To contact us again about this case, please return to the AWS Support Center using the following URL:
+
+https://console.aws.amazon.com/support/home#/case/?displayId=6470071311&language=en
+
+(If you are connecting by federation, log in before following the link.)
+
+*Please note: this e-mail was sent from an address that cannot accept incoming e-mail. Please use the link above if you need to contact us again about this same issue.
+
+====================================================================
+Learn to work with the AWS Cloud. Get started with free online videos and self-paced labs at
+http://aws.amazon.com/training/

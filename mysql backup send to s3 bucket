@@ -1,0 +1,24 @@
+export AWS_CONFIG_FILE="/home/ubuntu/.aws/config"
+export AWS_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
+export AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cd /opt/db-backup/
+mysqldump -h klinicapp-rds.xxxxxxxxxxxxxxxxxxxxxx.amazonaws.com -u klinicappdb -pxxxxxxxxxxxxxxxx klinicappdb | gzip -9 > Backup-DB-klinicappdb-$(date +"%Y-%m-%d-%H").tar.gz
+/usr/bin/aws s3 mv  /opt/db-backup/Backup-DB-klinicappdb-$(date +"%Y-%m-%d-%H").tar.gz  s3://klinicappdb-backup/
+
+
+
+====================================================================================================================
+
+cron database backup in local and mv to s3 bucket
+
+https://www.linode.com/docs/databases/mysql/use-mysqldump-to-back-up-mysql-or-mariadb/
+
+0 22   * /usr/bin/mysqldump --defaults-extra-file=/home/data/.my.cnf -u root --single-transaction --quick --lock-tables=false lixil_master > /opt/data/lixil_master-$(date +\%F).sql
+
+05 22   * /usr/bin/mysqldump --defaults-extra-file=/home/data/.my.cnf -u root --single-transaction --quick --lock-tables=false lixil_xmw_dealer > /opt/data/lixil_xmw_dealer-$(date +\%F).sql
+
+10 22   * /usr/bin/mysqldump --defaults-extra-file=/home/data/.my.cnf -u root --single-transaction --quick --lock-tables=false lixil_xmw_dealer > /opt/data/lixil_xmw_employee-$(date +\%F).sql
+
+Move data to s3
+
+30 20   * aws s3 mv --recursive /opt/s3-data/ s3://dotvik-sql-data-backup/

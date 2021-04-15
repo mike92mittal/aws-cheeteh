@@ -1,0 +1,55 @@
+Hi,
+
+Greetings and thank you for contacting AWS Premium Support. My name is Ghulam and I will be the engineer assisting you on this case.
+
+From the case correspondence, I understand that you want to know a possible workaround to migrate your EC2 instance which is a part of active directory organizational unit to On Premises vcenter. Please let me know if I misunderstood your query.
+
+I have checked  the migration tools that AWS offers and found that VM import/export [1] is the tool which suits your need of exporting EC2 instances running in AWS to on premises. Let me briefly explain the process for you. This process uses "create-instance-export-task"  API call to create an ova file according to your on premises virtualization platform which in your case is VMware. To use this API call you should have AWS CLI configured if it is not configured, you can do this using instructions in this link [2]. The exported ova files are stored on the S3 bucket for which you need to have an S3 bucket with proper permissions. Once the process is completed you can download this file and deploy it in your on premises environment. The detailed process for this migration is mentioned in our public documentation on this link [3]
+
+However please note that there are below limitations while using this service.
+
+-----------
+Limitations
+-----------
+
+--> It only exports EC2 instances with root volume and cannot export data volumes
+--> You cannot export instance with more than 1 network interface.
+--> Instances with encrypted volume cannot be migrated.
+--> EC2 instance with root volume larger than 1 TiB cannot be migrated.
+
+The above process will help you to migrate your EC2 instance successfully to the On-premises server. However, in case you find any error in migration, you can use this link [4] which highlights the common problems faces during export process and their remedy.
+
+I hope this information helps you. If you require any further assistance please feel free to contact me. I'll be glad to assist you with any further questions you have.  
+
+Have a Good Day Ahead!
+
+References: 
+[1] VM Import Export: https://aws.amazon.com/ec2/vm-import/ 
+[2] Configure AWs CLI: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html 
+[3] Export EC2 instances: https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport.html 
+[4] Troubleshooting Common Issues: https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-troubleshooting.html 
+
+Best regards,
+
+Ghulam M.
+Amazon Web Services
+
+Check out the AWS Support Knowledge Center, a knowledge base of articles and videos that answer customer questions about AWS services: https://aws.amazon.com/premiumsupport/knowledge-center/?icmpid=support_email_category 
+
+We value your feedback. Please rate my response using the link below.
+===================================================
+
+To contact us again about this case, please return to the AWS Support Center using the following URL:
+
+https://console.aws.amazon.com/support/home#/case/?displayId=6660512541&language=en 
+
+(If you are connecting by federation, log in before following the link.)
+
+*Please note: this e-mail was sent from an address that cannot accept incoming e-mail. Please use the link above if you need to contact us again about this same issue.
+
+====================================================================
+Learn to work with the AWS Cloud. Get started with free online videos and self-paced labs at 
+http://aws.amazon.com/training/ 
+====================================================================
+
+Amazon Web Services, Inc. is an affiliate of Amazon.com, Inc. Amazon.com is a registered trademark of Amazon.com, Inc. or its affiliates.

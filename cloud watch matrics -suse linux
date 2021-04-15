@@ -1,0 +1,24 @@
+ 1  2019-04-22 14:52:55 wget http://download.opensuse.org/repositories/devel:/languages:/perl/SLE_12_SP3/noarch/perl-Switch-2.17-32.1.noarch.rpm
+    2  2019-04-22 14:54:08 sudo rpm -i perl-Switch-2.17-32.1.noarch.rpm
+    3  2019-04-22 14:55:02 sudo zypper install perl-Switch perl-DateTime
+    4  2019-04-22 14:55:46 sudo zypper install –y "perl(LWP::Protocol::https)"
+    5  2019-04-22 14:57:10 cd /opt/
+    6  2019-04-22 14:57:11 ll
+    7  2019-04-22 14:57:15 curl https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip -O
+    8  2019-04-22 14:57:25 unzip CloudWatchMonitoringScripts-1.2.2.zip && rm CloudWatchMonitoringScripts-1.2.2.zip && cd aws-scripts-mon
+    9  2019-04-22 15:00:14 ./mon-put-instance-data.pl --mem-util --verify --verbose
+   10  2019-04-22 15:01:27 ./mon-put-instance-data.pl --mem-used-incl-cache-buff --mem-util --mem-used --mem-avail
+   11  2019-04-22 15:02:25 history
+
+
+
+
+
+crontab -e
+
+*/5 * * * * /opt/aws-scripts-mon/mon-put-instance-data.pl --mem-used-incl-cache-buff --mem-util --mem-used --mem-avail --disk-space-util --disk-space-avail --disk-space-used --disk-path=/ --from-cron
+
+
+./mon-put-instance-data.pl --mem-used-incl-cache-buff --mem-util --mem-used --mem-avail
+
+/opt/aws-scripts-mon

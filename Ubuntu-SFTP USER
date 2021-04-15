@@ -1,0 +1,17 @@
+
+SFTP -Docs for Ubuntu
+
+adduser klinincdb
+usermod -G www-data klinincdb
+chown -R klinicdbsftp:www-data /var/www/html/
+vim /etc/ssh/sshd_config
+
+passwordauthentication yes
+
+Match Group www-data
+   ChrootDirectory /var/www
+   ForceCommand internal-sftp
+   X11Forwarding no
+   AllowTcpForwarding no
+   
+   systemctl restart sshd

@@ -1,0 +1,38 @@
+yum update -y
+    3  hostnamectl set-hostname ujjalapp
+    4  hostname
+    5  timedatectl set-timezone Asia/kolkata
+    6  c
+    7  timedatectl set-timezone Asia/Kolkata
+    8  ll
+    9  date
+   10  ll
+   11  yum install httpd -y
+   12  systemctl restart httpd
+   13  systemctl enable httpd
+   14  curl ipinfo.io
+   15   yum install epel-release yum-utils -y
+   16  yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+   17  yum-config-manager --enable remi-php72
+   18   yum install php php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysql -y
+   19  ll
+   20  php -v
+   21  cd /var/www/html/
+   22  vi info.php
+   23  systemctl restart httpd
+   24   wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+   25  yum install wget -y
+   26   wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+   27  yum localinstall mysql57-community-release-el7-11.noarch.rpm
+   28  yum repolist enabled | grep "mysql.*-community.*"
+   29*
+   30  yum-config-manager --disable mysql57-community
+   31  service mysqld start
+   32  service mysqld status
+   33  grep 'temporary password' /var/log/mysqld.log
+   34  mysql_secure_installation
+   35  ll
+   36  service restart myswld
+   37  service restart mysqld
+   38  service mysqld start
+   39  mysql -u root -p

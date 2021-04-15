@@ -1,0 +1,120 @@
+yum install mysql-community-server-5.7.23-1.el7.x86_64.rpm
+  211  yum  install mysql5.7*
+  212   wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  213  rpm -ivh epel-release-latest-7.noarch.rpm 
+  214  cd /etc/yum.repos.d/
+  215  ll
+  216  vim epel.repo 
+  217  yum install mysql57-server
+  218  vim epel.repo 
+  219  yum clean all
+  220  yum makecache
+  221  yum install mysql-community-server-5.7.23-1.el7.x86_64.rpm
+  222  yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+  223  ll
+  224  vim mysql-community.repo
+  225  yum install mysql-community-server-5.7
+  226  yum repolist 
+  227  yum install mysql57
+  228  yum install mysql5.7
+  229  yum makecache
+  230  yum install mysql-community-server-5.7
+  231  yum install mysql-community-server*
+  232  cd 
+  233  systemctl restart mysqld
+  234  systemctl enbale mysqld
+  235  systemctl enable mysqld
+  236  systemctl status mysqld
+  237  mysql -version
+  238  mysql --version
+  239  mysql_secure_installation 
+  240  mysql_secure_installation 
+  241  cd var/log/mysqld.log
+  242  cd var/log/
+  243  cd /var/log/
+  244  ls
+  245  vim mysqld.log 
+  246  mysql_secure_installation 
+  247  mysql_secure_installation 
+  248  mysql -u root -p
+  249  history
+
+
+
+==========================================================
+Mysql 5.6
+
+https://stackoverflow.com/questions/19811159/installing-mysql-5-6-in-amazon-linux-machine
+
+Remove old mySql
+
+sudo yum remove mysql mysql-server mysql-common mysql-client
+
+remove all pre-installed packages. You can get a list:
+
+rpm -qa | grep -i mysql
+
+Then uninstall all of them. For example:
+
+rpm -e mysql libmysqlclient15-5.0.94-0.2.4.1 <and so on>
+
+Completely remove the /var/lib/mysql folder
+
+    cd /var/lib
+    rm -rf mysql
+
+Installing fresh mySql 5.6 =>
+
+    wget http://dev.mysql.com/get/Downloads/MySQL-5.6/MySQL-5.6.23-1.el7.x86_64.rpm-bundle.tar
+    tar -xvf MySQL-5.6.23-1.el7.x86_64.rpm-bundle.tar
+    sudo yum -y install MySQL-client-5.6.23-1.el7.x86_64.rpm
+    sudo yum install MySQL-shared-compat-5.6.23-1.el7.x86_64.rpm
+    sudo yum install MySQL-server-5.6.23-1.el7.x86_64.rpm
+
+
+
+down vote
+
+Starting from 2015 Sep, Mysql 5.6 server is now natively available through Amazon yum repos. More info @ https://aws.amazon.com/blogs/aws/now-available-amazon-linux-ami-2015-09/
+
+You can now simply install Mysql 5.6 server using
+
+sudo yum install mysql56-server
+
+Then you can simply start/stop/status look using the regular service commands
+
+service mysqld start ( restart | stop | status |  )
+
+I couldn't figure out the default root password in Amazon AMI then I simply reset the root user password by starting the mysqld service with skip grant tables
+
+mysqld_safe --skip-grant-tables start
+mysql -u root 
+update user set password=PASSWORD('[New Password]') where User='root';
+
+OR
+
+/usr/libexec/mysql56/mysqladmin -u root password 'new password'
+
+Also, you need to run the following command to upgrade the MySQL database to 5.6
+
+sudo mysql_upgrade -u root -p
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+https://forums.aws.amazon.com/thread.jspa?threadID=124870
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,11 @@
+NFS SYNC BOTH way
+
+SERVER SIDE:-
+vim /etc/exports
+/software 10.100.4.176(rw,sync,no_root_squash,no_all_squash)
+####10.100.4.176==> clientip####software==>Folder to be sync
+
+Client Side:-
+vim /etc/fstab
+10.100.4.46:/software /software/software-app nfs defaults 0 0
+####10.100.4.46==>Server IP####/software/software-app==>SYNC With#####

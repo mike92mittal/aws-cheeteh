@@ -1,0 +1,19 @@
+wget https://files.phpmyadmin.net/phpMyAdmin/4.0.10.20/phpMyAdmin-4.0.10.20-all-languages.zip
+
+tar -xvf phpMyAdmin-4.0.10.20-all-languages.zip
+
+ yum install phpmyadmin
+  405  cd /etc/httpd/conf.d
+  406  ll
+  407  vim phpMyAdmin.conf 
+  408  cp phpMyAdmin.conf phpMyAdmin.conf.bak
+  409  vim phpMyAdmin.conf 
+  410  systemctl restart httpd
+
+
+
+
+
+
+
+phpMyAdmin install 

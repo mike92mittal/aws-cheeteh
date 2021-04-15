@@ -1,0 +1,35 @@
+Dear All,
+
+
+Cockpit is a system administration tool that provides a user interface for monitoring and administering servers through a web browser or you can say Cockpit is an interactive Linux server admin interface. 
+Cockpit enables to perform these tasks:
+
+1. Monitoring basic system features, such as hardware, internet connection, or performance
+2. characteristics
+3. Analyzing the content of the system log files
+4. Configuring basic networking features, such as interfaces, network logs, packet sizes
+5. Managing user accounts
+6. Monitoring and configuring system services
+7. Creating diagnostic reports
+8. Setting kernel dump configuration
+9. Configuring SELinux
+10. Managing system subscriptions
+11. Accessing the terminal (On Web)
+
+
+Installation Process of COCKPIT.
+
+#  yum install cockpit cockpit-dashboard -y
+#  firewall-cmd --add-port=9090/tcp
+#  firewall-cmd --permanent --add-port=9090/tcp
+
+# systemctl enable cockpit.socket
+# systemctl start cockpit.socket
+
+
+It's done!!
+
+https://localhost:9090
+User : root
+Password :  rootpassword  (System root password)
+

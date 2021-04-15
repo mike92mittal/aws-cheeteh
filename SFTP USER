@@ -1,0 +1,94 @@
+useradd -g apache -d /var/www/html/ -s /sbin/nologin arkinfosftp;
+  226  passwd arkinfosftp
+  227  cd /var/www/html
+  228  ll
+  229  getfacl /var/www/html
+  230  chown -R apache:apache /var/www/html/
+  231  setfacl -m d:u:arkinfosftp:rwx,g:apache:rwx /var/www/html/
+  232  getfacl /var/www/html
+  233  vim /etc/ssh/sshd_config
+  234  systemctl restart sshd
+  235  systemctl enable sshd
+  236  sftp arkinfosftp@localhost
+
+
+
+cp sshd.config.bak sshd_config
+  177  vim sshd_config
+  178  cd
+  179  useradd -g apache -d /var/www/html/ -s /sbin/nologin priyanshisftp;    echo 'FSjv6k4dw5hH4mZB'|passwd --stdin priyanshisftp
+  180  chown -R apache:apache /var/www/html/
+  181  gatfacl /var/www/html/
+  182  gatfacl /var/www/html/
+  183  getfacl /var/www/html/
+  184  setfacl -m d:u:priyanshisftp:rwx,g:apache:rwx /var/www/html/
+  185  ls -ld priyanshisftp
+  186  id priyanshisftp
+  187  vim /etc/ssh/sshd_config
+  188  systemctl sshd restart
+  189  systemctl restart sshd
+  190  systemctl enable sshd
+  191  sftp priyanshisftp@localhost
+  192  usermod -s /bin/bash Match Group sftponly 
+  193  ChrootDirectory %h 
+  194  ForceCommand internal-sftp 
+  195  X11Forwarding no 
+  196  usermod -s /bin/bash priyanshisftp
+  197  sftp priyanshisftp@localhost
+  198  vim /etc/ssh/sshd_config
+  199  systemctl restart sshd
+  200  sftp priyanshisftp@localhost
+  201  getfacl /var/www/html/
+  202  vi /etc/ssh/sshd_config
+  203  systemctl restart sshd
+  204  sftp priyanshisftp@13.127.138.16
+  205  EXIT
+  206  exit
+  207  cat /etc/passwd
+  208  vim /etc/ssh/sshd_config
+  209  cd /etc/ssh/
+  210  ll
+  211  cp sshd.config.bak sshd_config
+  212  vim sshd_config
+  213  cd
+  214  ls -lart /var/www/html/
+  215  cat /etc/passwd
+  216  passwd priyanshisftp
+  217  systemctl restart sshd
+  218  getfacl /var/www/html/
+  219  cat /etc/group|grep apache
+  220  id priyanshisftp
+  221  vim sshd_config
+  222  vim /etc/ssh/sshd_config
+  223  sftp priyanshisftp@localhost
+  224  vim /etc/ssh/sshd_config
+  225  vim /etc/ssh/sshd_config
+  226  vim /etc/ssh/sshd_config
+  227  systemctl restart sshd
+  228  sftp -P 5726 priyanshisftp@localhost
+  229  history
+  
+  
+
+
+
+
+
+
+
+
+Match User apache
+ForceCommand internal-sftp
+ChrootDirectory /var/www/html
+PermitTunnel no
+AllowAgentForwarding no
+AllowTcpForwarding no
+X11Forwarding no
+
+
+
+
+
+
+
+

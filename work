@@ -1,0 +1,53 @@
+
+
+LAMP
+
+
+
+
+
+
+
+
+
+
+
+
+AWS
+///////////////////////////////
+
+Create IAM USER and provide specific s3 bucket access
+create infra(vpc, ec2)
+ALB
+Ami creation. delete with retation(automatic)
+server start & stop automatically
+RDS- backup, restore, connectivity between RDS and ec2
+Server restart, 
+Instance type modification
+ip allow
+update DNS record route 53
+update Records
+allow port 
+create s3 bucket
+create IAM user to provide specific s3 bucket access
+S3 sync with ec2 
+s3 mounting on ec2 permanent
+cloud front
+ALB
+ACM
+
+user create and add in domain ---------window server
+create window instance 
+UPdate window
+antivirus installation
+HOSTNAME set 
+Update timezone
+Ms-sql server installation
+installtion ssms
+create admin user
+ocp tool 
+IIS server full installtion
+RDP cal license
+
+
+

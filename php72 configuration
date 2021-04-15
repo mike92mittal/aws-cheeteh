@@ -1,0 +1,38 @@
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+
+
+
+
+
+in php.ini
+memory_limit - 512
+max_execution_time - 3600
+max_input_time - 5200
+upload_max_filesize - 360
+post_max_size - 520
+
+
+
+Module need to install
+
+moderewrite
+mcrypt
+mbstring
+gdlibrary
+maxexecution 360
+maxinputtime 720
+memlimit 512
+
+
+
+
+

@@ -1,0 +1,65 @@
+yum -y update
+yum -y install epel-release
+wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+wget https://centos6.iuscommunity.org/ius-release.rpm
+rpm -Uvh ius-release*.rpm
+yum -y update
+
+ yum install -y http://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-14.ius.centos7.noarch.rpm
+  516  yum install epel-release
+--------------------------------------------------------------------  
+
+
+  517  amazon-linux-extras install epel
+  518  yum -y install php71u php71u-pdo php71u-mysqlnd php71u-opcache php71u-xml php71u-mcrypt php71u-gd php71u-devel php71u-mysql php71u-intl php71u-mbstring php71u-bcmath php71u-json php71u-iconv php71u-soap
+  519  yum install -y http://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64/ius-release-1.0-14.ius.centos7.noarch.rpm
+  520  yum -y install php71u php71u-pdo php71u-mysqlnd php71u-opcache php71u-xml php71u-mcrypt php71u-gd php71u-devel php71u-mysql php71u-intl php71u-mbstring php71u-bcmath php71u-json php71u-iconv php71u-soap
+  521  php -v
+  522  cd /var/www/html/
+  523  ll
+  524  curl ipinfo.io
+  525  service httpd restart
+  526  cd /var/www/html/
+  527  ls
+  528  mv info.php test.php
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+switch version of php.
+
+scl enable php72 bash
+
+
+/////////////////////////////////////////////////////////
+
+php 7.2
+
+ amazon-linux-extras install php7.2
+ yum-config-manager --enable remi-php72
+ yum -y install php php-opcache
+ amazon-linux-extras install php7.2
+
+//////////////////////////////////////////////////////////
+for module download 
+
+https://pkgs.org/download/php-mbstring
+
+https://webtatic.com/packages/php72/
+
+
+
+
+--------------------------------------------------
+
+sFTP USER
+
+cat /etc/passwd
+ 1007  useradd henkelstagenewsftp
+ 1008  usermod -d /var/www/html henkelstagenewsftp
+ 1009  setfacl -R -m u:henkelstagenewsftp:rwx /var/www/html
+ 1010  getfacl /var/www/html
+ 1011  passwd henkelstagenewsftp
+
+
+

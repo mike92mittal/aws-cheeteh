@@ -1,0 +1,30 @@
+virtual Hosting
+https://linuxize.com/post/how-to-set-up-apache-virtual-hosts-on-centos-7/
+
+
+<VirtualHost *:80>
+ServerName      khushisharma.tk
+ServerAlias     wwww.khushisharma.tk
+DocumentRoot    /var/www/khushisharma.tk/public_html
+
+
+<Directory /var/www/khushisharma.tk/public_html>
+Options -Indexes +FollowSymLinks
+        AllowOverride All
+</Directory>
+
+
+RewriteEngine on
+RewriteCond %{SERVER_NAME} =khushisharma.tk [OR]
+RewriteCond %{SERVER_NAME} =wwww.khushisharma.tk
+RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
+
+
+
+https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-centos-7
+
+
+virual host type -
+
+https://httpd.apache.org/docs/2.4/vhosts/examples.html

@@ -1,0 +1,183 @@
+cloud watch for 2012
+
+https://medium.com/tensult/sending-windows-2012-logs-to-cloudwatch-5c7010582461
+
+===============================================================================================
+
+{
+  "IsEnabled": true,
+  "EngineConfiguration": {
+    "Components": [
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.EventLog.EventLogInputComponent,AWS.EC2.Windows.CloudWatch",
+        "Id": "EC2ConfigServiceEventLog",
+        "Parameters": {
+          "Levels": "4",
+          "LogName": "EC2ConfigService"
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.EventLog.EventLogInputComponent,AWS.EC2.Windows.CloudWatch",
+        "Id": "ApplicationEventLog",
+        "Parameters": {
+          "Levels": "4",
+          "LogName": "Application"
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.EventLog.EventLogInputComponent,AWS.EC2.Windows.CloudWatch",
+        "Id": "SystemEventLog",
+        "Parameters": {
+          "Levels": "7",
+          "LogName": "System"
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.EventLog.EventLogInputComponent,AWS.EC2.Windows.CloudWatch",
+        "Id": "SecurityEventLog",
+        "Parameters": {
+          "Levels": "7",
+          "LogName": "Security"
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.CustomLog.CustomLogInputComponent,AWS.EC2.Windows.CloudWatch",
+        "Id": "CustomLogs",
+        "Parameters": {
+          "CultureName": "en-US",
+          "Encoding": "UTF-8",
+          "Filter": "",
+          "LineCount": "5",
+          "LogDirectoryPath": "C:\\CustomLogs\\",
+          "TimeZoneKind": "Local",
+          "TimestampFormat": "MM/dd/yyyy HH:mm:ss"
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.PerformanceCounterComponent.PerformanceCounterInputComponent,AWS.EC2.Windows.CloudWatch",
+        "Id": "PerformanceCounter",
+        "Parameters": {
+          "CategoryName": "Memory",
+          "CounterName": "Available MBytes",
+          "DimensionName": "InstanceId",
+          "DimensionValue": "{instance_id}",
+          "InstanceName": "",
+          "MetricName": "AvailableMemory",
+          "Unit": "Megabytes"
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.CloudWatchLogsOutput,AWS.EC2.Windows.CloudWatch",
+        "Id": "CloudWatchLogs-System",
+        "Parameters": {
+          "AccessKey": "",
+          "LogGroup": "Tensult/System",
+          "LogStream": "{instance_id}",
+          "Region": "ap-south-1",
+          "SecretKey": ""
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.CloudWatchLogsOutput,AWS.EC2.Windows.CloudWatch",
+        "Id": "CloudWatchLogs-Application",
+        "Parameters": {
+          "AccessKey": "",
+          "LogGroup": "Tensult/Application",
+          "LogStream": "{instance_id}",
+          "Region": "ap-south-1",
+          "SecretKey": ""
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.CloudWatchLogsOutput,AWS.EC2.Windows.CloudWatch",
+        "Id": "CloudWatchLogs-Security",
+        "Parameters": {
+          "AccessKey": "",
+          "LogGroup": "Tensult/Security",
+          "LogStream": "{instance_id}",
+          "Region": "ap-south-1",
+          "SecretKey": ""
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.CloudWatchLogsOutput,AWS.EC2.Windows.CloudWatch",
+        "Id": "CloudWatchLogs-EC2config",
+        "Parameters": {
+          "AccessKey": "",
+          "LogGroup": "Tensult/EC2Config",
+          "LogStream": "{instance_id}",
+          "Region": "ap-south-1",
+          "SecretKey": ""
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.CloudWatchLogsOutput,AWS.EC2.Windows.CloudWatch",
+        "Id": "CloudWatchLogs-CustomLogs",
+        "Parameters": {
+          "AccessKey": "",
+          "LogGroup": "Tensult/CustomLogs",
+          "LogStream": "{instance_id}",
+          "Region": "ap-south-1",
+          "SecretKey": ""
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.PerformanceCounterComponent.PerformanceCounterInputComponent,AWS.EC2.Windows.CloudWatch",
+        "Id": "PerformanceCounterDiskC",
+        "Parameters": {
+          "CategoryName": "LogicalDisk",
+          "CounterName": "% Free Space",
+          "DimensionName": "InstanceId",
+          "DimensionValue": "{instance_id}",
+          "InstanceName": "C:",
+          "MetricName": "C.FreeDiskPercent",
+          "Unit": "Percent"
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.PerformanceCounterComponent.PerformanceCounterInputComponent,AWS.EC2.Windows.CloudWatch",
+        "Id": "PerformanceCounterDiskD",
+        "Parameters": {
+          "CategoryName": "LogicalDisk",
+          "CounterName": "% Free Space",
+          "DimensionName": "InstanceId",
+          "DimensionValue": "{instance_id}",
+          "InstanceName": "D:",
+          "MetricName": "D.FreeDiskPercent",
+          "Unit": "Percent"
+        }
+      },
+      {
+        "FullName": "AWS.EC2.Windows.CloudWatch.CloudWatch.CloudWatchOutputComponent,AWS.EC2.Windows.CloudWatch",
+        "Id": "CloudWatch",
+        "Parameters": {
+          "AccessKey": "",
+          "NameSpace": "Windows/Default",
+          "Region": "ap-south-1",
+          "SecretKey": ""
+        }
+      }
+    ],
+    "Flows": {
+      "Flows": [
+        "(EC2ConfigServiceEventLog),CloudWatchLogs-EC2Config",
+        "(SystemEventLog),CloudWatchLogs-System",
+        "(SecurityEventLog),CloudWatchLogs-Security",
+        "(ApplicationEventLog),CloudWatchLogs-Application",
+        "(CustomLogs),CloudWatchLogs-CustomLogs",
+        "(PerformanceCounter,PerformanceCounterDiskC,PerformanceCounterDiskD),CloudWatch"
+      ]
+    },
+    "PollInterval": "00:00:15"
+  }
+}
+
+
+
+=======================================================================================================================================================================================================
+
+
+
+cloud watch for 2012 + 2016 
+
+https://blog.powerupcloud.com/aws-windows-cloudwatch-monitoring-part-iii-custom-metrics-with-aws-unified-agent-5953de5ecb14
